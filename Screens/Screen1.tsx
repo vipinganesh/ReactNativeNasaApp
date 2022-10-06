@@ -84,6 +84,3 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-function useLayoutEffect(arg0: () => void) {
-  throw new Error("Function not implemented.");
-}
