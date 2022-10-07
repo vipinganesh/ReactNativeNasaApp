@@ -35,8 +35,8 @@ const Screen2 = ({ route, navigation }: any) => {
         </Text>
       ) : (
         <View>
-          <Text style={styles.asteroiddata}>Id:{asteroidDetail?.id}</Text>
-          <Text style={styles.asteroiddata}>Name:{asteroidDetail?.name}</Text>
+          <Text style={styles.asteroiddata}>Id: {asteroidDetail?.id}</Text>
+          <Text style={styles.asteroiddata}>Name: {asteroidDetail?.name}</Text>
           <Text style={styles.asteroiddata}>
             NASA JPL URL: {asteroidDetail?.nasa_jpl_url}
           </Text>
