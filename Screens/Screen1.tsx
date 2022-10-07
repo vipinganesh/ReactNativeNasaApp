@@ -1,22 +1,45 @@
 import axios from "axios";
 import * as React from "react";
-import { View, TextInput, StyleSheet, Button } from "react-native";
+import { View, TextInput, StyleSheet, Button, Alert } from "react-native";
 
 const Screen1 = ({ navigation }: any) => {
   const { useState, useRef } = React;
   const [asteroid_id, setasteroid_id] = useState("");
   const [randomasteroid_id, setrandomasteroid_id] = useState("");
   const [minimumValueError, setMinimumValueError] = useState(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const errorRef = useRef(false);
 
-  const handleButtonPress = () => {
-    navigation.push("About Astroid", { asteroid_id });
-  };
+  // const handleButtonPress = () => {
+  //   navigation.push("About Astroid", { asteroid_id });
+  // };
+
+  // const handleBtnPress = (asteroid_id: any) => {
+  //   axios.get(`https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=DEMO_KEY`);
+  //   navigation.push("About Astroid", { asteroid_id });
+  // };
 
   const handleBtnPress = () => {
-    axios.get(`https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=DEMO_KEY`);
-    // navigation.push("About Astroid", { asteroid_id });
+    setLoading(true);
+    axios
+      .get(`https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=DEMO_KEY`)
+      .then((response) => {
+        const randomNumber = Math.floor(
+          Math.random() * response.data.near_earth_objects.length
+        );
+        navigation.navigate("About Astroid", {
+          asteroid_id: response.data.near_earth_objects[randomNumber].id,
+        });
+      })
+      .catch(() => {
+        Alert.alert("Error", "Something Went wrong", [
+          {
+            text: "ok",
+          },
+        ]);
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleChange = (value: string) => {
@@ -44,12 +67,22 @@ const Screen1 = ({ navigation }: any) => {
       <View style={styles.button}>
         <Button
           disabled={minimumValueError}
-          onPress={handleButtonPress}
+          // onPress={handleButtonPress}
           title="Submit"
+          onPress={() => {
+            navigation.navigate("About Astroid", { asteroid_id });
+          }}
         />
       </View>
       <View style={styles.btn}>
-        <Button onPress={handleBtnPress} title="Random Asteroid" />
+        {/* <Button onPress={handleBtnPress} title="Random Asteroid" /> */}
+        <Button
+          disabled={loading}
+          title="Random Asteroid"
+          onPress={() => {
+            handleBtnPress();
+          }}
+        />
       </View>
     </View>
   );

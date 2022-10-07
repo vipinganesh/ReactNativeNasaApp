@@ -26,6 +26,7 @@ const Screen2 = ({ route, navigation }: any) => {
         setwrongasteroid_idError(true);
       });
   }, []);
+
   return (
     <View>
       {wrongasteroid_idError ? (
@@ -41,7 +42,9 @@ const Screen2 = ({ route, navigation }: any) => {
           </Text>
           <Text style={styles.asteroiddata}>
             Is Potentially Hazardous Asteroid:
-            {asteroidDetail?.is_potentially_hazardous_asteroid}false
+            {asteroidDetail?.is_potentially_hazardous_asteroid
+              ? "true"
+              : "false"}
           </Text>
         </View>
       )}
